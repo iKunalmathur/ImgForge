@@ -1,0 +1,17 @@
+# Core dependencies for background removal and image processing
+# Note: Install with CPU backend using: pip install "rembg[cpu]"
+rembg[cpu]==2.0.74
+Pillow>=11.0.0
+opencv-python>=4.9.0.80
+numpy>=1.26.4
+
+# Configuration file parsing
+PyYAML>=6.0.1
+
+# CLI enhancements for better user experience
+tqdm>=4.67.1
+colorama>=0.4.6
+
+# Additional dependencies (auto-installed with rembg)
+# - onnxruntime: for AI model inference
+# - scikit-image: for image processing utilities

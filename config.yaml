@@ -1,0 +1,33 @@
+# Image Background Transformer Configuration
+# ===========================================
+
+# Input/Output Configuration
+input_folder: "./input"
+output_folder: "./output"
+background_folder: "./backgrounds"
+default_background: "./backgrounds/bg1.jpg"  # Leave empty to use auto-generated gray background
+
+# Processing Options
+output_format: "JPEG"  # Options: JPEG, PNG, WEBP
+output_quality: 95     # 1-100 for JPEG/WEBP (higher = better quality, larger file)
+preserve_original_format: false  # If true, ignores output_format and uses input format
+add_timestamp: true    # Add timestamp to output filename (e.g., image_20260328_191044.jpg)
+
+# Background Removal Options
+model: "u2net"  # Options: u2net, u2netp, u2net_human_seg, u2net_cloth_seg
+# u2net: General purpose, most accurate (slower)
+# u2netp: Lightweight version, faster but less accurate
+# u2net_human_seg: Optimized for human subjects
+# u2net_cloth_seg: Optimized for clothing items
+
+# Image Enhancement Options
+add_shadow: false  # Add realistic shadow under subject (experimental)
+center_subject: true  # Center the subject in the output image
+
+# Batch Processing Options
+skip_existing: true  # Skip files that already exist in output folder
+continue_on_error: true  # Continue processing even if some images fail
+
+# Logging Options
+log_level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+log_file: "./logs/processing.log"
