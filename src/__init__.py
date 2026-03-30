@@ -1,5 +1,5 @@
 """
-Image Background Transformer
+ImgForge
 A tool for removing and replacing backgrounds in images.
 """
 

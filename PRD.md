@@ -1,9 +1,10 @@
 # Product Requirements Document (PRD)
+
 ## Image Background Removal & Replacement Tool
 
 ### 1. Product Overview
 
-**Product Name**: Image Background Transformer
+**Product Name**: ImgForge
 
 **Version**: 1.0
 
@@ -44,12 +45,14 @@
 ### 4. Functional Requirements
 
 #### 4.1 Input Requirements
+
 - **Input Folder**: `./input/` - Contains source images with backgrounds to remove
 - **Supported Formats**: JPEG, JPG, PNG, WEBP, BMP
 - **Image Content**: Images containing a primary subject (e.g., car, product) with background
 - **Background Source**: Sample background image provided in `./backgrounds/` folder or auto-generated default gray gradient background
 
 #### 4.2 Output Requirements
+
 - **Output Folder**: `./output/` - Stores processed images with replaced backgrounds
 - **Naming Convention**: Same filename as input with configurable format extension
 - **Format**: Match input format or configurable (default: JPEG for photos)
@@ -59,24 +62,28 @@
 #### 4.3 Processing Requirements
 
 **Background Removal**:
+
 - Use AI-based semantic segmentation (U-2-Net) to identify and remove background
 - Maintain clean edges around the subject
 - Handle complex subjects (e.g., vehicles with open doors, wheels, reflections)
 - Preserve fine details (shadows under vehicle, windows, interior details)
 
 **Background Replacement**:
+
 - Composite removed subject onto sample background or auto-generated gray gradient
 - Match perspective and scale appropriately
 - Center or position subject according to configuration
 - Support custom background images
 
 **Batch Processing**:
+
 - Process all images in input folder sequentially with progress bars
 - Generate progress indicators (e.g., "Processing 3/10 images...")
 - Skip already processed images (optional, configurable)
 - Continue processing even if individual images fail (configurable)
 
 #### 4.4 Error Handling
+
 - Validate input folder exists and contains compatible images
 - Handle corrupted or unsupported image formats gracefully
 - Log errors to `./logs/processing.log`
@@ -84,6 +91,7 @@
 - Colored console output for easy status recognition
 
 #### 4.5 Configuration
+
 - **Config File**: `config.yaml`
 - **Configurable Parameters**:
   - Input/output folder paths
@@ -105,6 +113,7 @@
 **Core Language**: Python 3.8+
 
 **Key Libraries**:
+
 - **rembg[cpu]** (v2.0.74): AI-powered background removal using U-2-Net model with CPU backend
 - **Pillow** (v11.0+): Image manipulation, compositing, resizing
 - **OpenCV** (cv2) (v4.9+): Advanced image processing, optional shadow generation
@@ -117,12 +126,14 @@
 **Python Version Tested**: Python 3.14
 
 #### 5.2 Performance Requirements
+
 - **Processing Speed**: ~3-4 seconds per 1366x768 image (after model loading)
 - **First Run**: Additional ~50 seconds for model download (176 MB, one-time)
 - **Memory**: Handles images up to 4K resolution without issues
 - **CPU Backend**: Uses CPU for inference (GPU support available via rembg[gpu])
 
 #### 5.3 Quality Requirements
+
 - **Edge Quality**: Clean, smooth edges on removed subjects with minimal artifacts ✅
 - **Color Preservation**: No significant color shift in subject after processing ✅
 - **Dimension Match**: Output dimensions exactly match input dimensions ✅
@@ -133,6 +144,7 @@
 ### 6. Architecture & Design
 
 #### 6.1 Project Structure
+
 ```
 image-transformer/
 ├── config.yaml                 # Configuration file
@@ -186,18 +198,21 @@ image-transformer/
 #### 6.3 Core Components
 
 **BackgroundRemover** (`background_remover.py`):
+
 - Initialize AI model (U-2-Net via rembg)
 - Lazy load model on first use
 - Remove background from image → return subject with alpha channel (RGBA)
 - Handle model loading, caching, and cleanup
 
 **BackgroundReplacer** (`background_replacer.py`):
+
 - Load sample background or generate default gray gradient
 - Resize/crop background to match target dimensions
 - Composite subject with alpha onto background using PIL alpha compositing
 - Optional: Generate and apply shadow layer (experimental)
 
 **ImageProcessor** (`image_processor.py`):
+
 - Orchestrate the complete pipeline
 - Batch processing with tqdm progress bars
 - Error handling and recovery
@@ -205,6 +220,7 @@ image-transformer/
 - Colored console output with colorama
 
 **Utils** (`utils.py`):
+
 - Logging setup
 - File system operations
 - Image validation
@@ -216,6 +232,7 @@ image-transformer/
 ### 7. User Experience (CLI)
 
 #### 7.1 Installation & Setup
+
 ```bash
 # Step 1: Create virtual environment
 python3 -m venv venv
@@ -238,6 +255,7 @@ pip install -r requirements.txt
 ```
 
 #### 7.2 Basic Usage
+
 ```bash
 # Ensure virtual environment is activated
 source venv/bin/activate  # macOS/Linux
@@ -268,9 +286,10 @@ deactivate
 ```
 
 #### 7.3 Expected Console Output
+
 ```
 ==================================================
-Image Background Transformer
+ImgForge
 ==================================================
 
 Input folder:  ./input
@@ -302,6 +321,7 @@ Output saved to: ./output
 ### 8. Success Criteria
 
 **Must Have (MVP)** - ✅ All Completed:
+
 - ✅ Successfully removes backgrounds from product images
 - ✅ Replaces backgrounds with sample background or auto-generated gradient
 - ✅ Maintains original image dimensions
@@ -310,6 +330,7 @@ Output saved to: ./output
 - ✅ Basic error handling and logging
 
 **Should Have** - ✅ All Completed:
+
 - ✅ Configuration file support (YAML)
 - ✅ Progress indicators during batch processing (tqdm)
 - ✅ Multiple background image support
@@ -319,6 +340,7 @@ Output saved to: ./output
 - ✅ Command-line argument overrides
 
 **Nice to Have (Future Enhancements)**:
+
 - ⏳ Shadow generation for realistic ground contact (implemented but experimental)
 - ⏳ GPU acceleration support (available via rembg[gpu])
 - ⏳ Web UI for easier interaction
@@ -332,6 +354,7 @@ Output saved to: ./output
 ### 9. Constraints & Assumptions
 
 **Assumptions**:
+
 - Users have Python 3.8+ installed (tested on Python 3.14)
 - **Users will set up and activate a virtual environment before installation**
 - Images contain clearly defined subjects suitable for AI segmentation
@@ -340,6 +363,7 @@ Output saved to: ./output
 - Internet connection available for first-time model download
 
 **Constraints**:
+
 - **Project dependencies must be isolated in virtual environment**
 - Processing speed depends on image resolution and CPU performance
 - AI model accuracy varies based on image complexity and subject type
@@ -352,12 +376,14 @@ Output saved to: ./output
 ### 10. Implementation Phases
 
 **Phase 0 - Environment Setup** ✅ **COMPLETED**:
+
 1. ✅ Create project structure and folders
 2. ✅ Initialize virtual environment
 3. ✅ Create requirements.txt with dependencies
 4. ✅ Install all required packages including onnxruntime CPU backend
 
 **Phase 1 - Core Functionality (MVP)** ✅ **COMPLETED**:
+
 1. ✅ Implement background removal using rembg
 2. ✅ Implement background replacement logic
 3. ✅ Create batch processing pipeline
@@ -365,6 +391,7 @@ Output saved to: ./output
 5. ✅ Test with real example images (car with open boot)
 
 **Phase 2 - Enhancement** ✅ **COMPLETED**:
+
 1. ✅ Add configuration file support (YAML)
 2. ✅ Implement comprehensive error handling
 3. ✅ Add progress indicators (tqdm)
@@ -373,6 +400,7 @@ Output saved to: ./output
 6. ✅ Add colored console output
 
 **Phase 3 - Polish** ✅ **COMPLETED**:
+
 1. ✅ Auto-generate default gray gradient background
 2. ✅ Optimize edge quality
 3. ✅ Add optional shadow generation (experimental)
@@ -385,6 +413,7 @@ Output saved to: ./output
 ### 11. Testing Requirements
 
 **Test Cases**:
+
 1. ✅ Single image processing with JPEG format
 2. ⏳ Batch processing with 10+ images
 3. ✅ Error handling (missing input folder, no images)
@@ -394,6 +423,7 @@ Output saved to: ./output
 7. ✅ Complex subject: car with open boot, interior visible, reflections
 
 **Test Results**:
+
 - ✅ Successfully processed car with open boot image
 - ✅ Clean edge removal with minimal artifacts
 - ✅ Original dimensions preserved perfectly
@@ -402,6 +432,7 @@ Output saved to: ./output
 - ✅ Output quality: Excellent, no visible compression artifacts
 
 **Acceptance Criteria**:
+
 - ✅ 100% success rate on test image
 - ✅ Output dimensions exactly match input (1366x768)
 - ✅ Processing completes without errors
@@ -425,21 +456,21 @@ Output saved to: ./output
    - Virtual environment configuration
    - Installation instructions
 
-3. ✅ **Documentation**: 
+3. ✅ **Documentation**:
    - Comprehensive README.md with setup, usage, and troubleshooting
    - PRD.md (this document)
    - Inline code comments
 
-4. ✅ **Configuration**: 
+4. ✅ **Configuration**:
    - `config.yaml` with well-documented options
    - CLI argument support for overrides
 
-5. ✅ **Examples**: 
+5. ✅ **Examples**:
    - Example input image ([images/raw.jpeg](images/raw.jpeg))
    - Example output image ([images/output.jpeg](images/output.jpeg))
    - Test results ([output/test_car.jpg](output/test_car.jpg))
 
-6. ✅ **Logging**: 
+6. ✅ **Logging**:
    - Structured logging to file and console
    - Colored output for better UX
 
@@ -448,6 +479,7 @@ Output saved to: ./output
 ### 13. Future Considerations
 
 **Potential Enhancements**:
+
 - Integration with cloud storage (S3, Google Cloud Storage)
 - REST API endpoint for web service integration
 - Support for video background replacement
@@ -461,6 +493,7 @@ Output saved to: ./output
 - Undo/redo functionality
 
 **Scalability**:
+
 - Current implementation handles single-threaded processing
 - Could be parallelized for multi-core systems
 - Cloud deployment for high-volume processing
@@ -493,12 +526,14 @@ python main.py
 ### 15. Example Test Results
 
 **Input Image**: `images/raw.jpeg`
+
 - **Subject**: Car with open boot/trunk
 - **Original Background**: Garage/showroom with visible walls, lights, equipment
 - **Dimensions**: 1366 x 768 pixels
 - **Format**: JPEG
 
 **Output Image**: `output/test_car.jpg`
+
 - **Subject**: Same car with open boot (perfectly extracted)
 - **New Background**: Professional gray gradient (auto-generated)
 - **Dimensions**: 1366 x 768 pixels (preserved ✅)
@@ -508,6 +543,7 @@ python main.py
 - **Processing Time**: 53.8 seconds (first run with model download)
 
 **Visual Comparison**:
+
 - ✅ Original garage background completely removed
 - ✅ Car cleanly extracted including open boot interior
 - ✅ All fine details preserved (lights, reflections, wheels)
@@ -520,6 +556,7 @@ python main.py
 ### 16. Technical Achievements
 
 **Successfully Implemented**:
+
 1. ✅ AI-powered background removal using state-of-the-art U-2-Net model
 2. ✅ Automatic default background generation (gray gradient)
 3. ✅ Batch processing pipeline with progress tracking
@@ -534,7 +571,7 @@ python main.py
 
 ## Conclusion
 
-The Image Background Transformer tool has been **successfully implemented and tested**. All MVP requirements have been met, and the tool performs as specified:
+The ImgForge tool has been **successfully implemented and tested**. All MVP requirements have been met, and the tool performs as specified:
 
 - ✅ Removes backgrounds from product images using AI
 - ✅ Replaces with professional backgrounds
@@ -543,6 +580,7 @@ The Image Background Transformer tool has been **successfully implemented and te
 - ✅ Provides excellent user experience
 
 The tool is **production-ready** for:
+
 - E-commerce product photography
 - Automotive listing preparation
 - Catalog image standardization

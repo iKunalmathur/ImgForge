@@ -1,4 +1,4 @@
-# Image Background Transformer 🎨
+# ImgForge 🎨
 
 A powerful Python tool for automatically removing backgrounds from images and replacing them with professional backgrounds while maintaining image quality and dimensions.
 
@@ -26,18 +26,20 @@ Perfect for e-commerce product photography, automotive listings, or any scenario
 ### Step 1: Clone or Download the Project
 
 ```bash
-cd /path/to/Image-transformer
+cd /path/to/ImgForge
 ```
 
 ### Step 2: Create Virtual Environment
 
 **macOS/Linux:**
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 **Windows:**
+
 ```cmd
 python -m venv venv
 venv\Scripts\activate
@@ -55,7 +57,7 @@ The first run will automatically download the AI model (~176 MB). This is a one-
 ## 📁 Project Structure
 
 ```
-Image-transformer/
+ImgForge/
 ├── main.py                     # Main entry point
 ├── config.yaml                 # Configuration file
 ├── requirements.txt            # Python dependencies
@@ -96,6 +98,7 @@ cp /path/to/background.jpg backgrounds/
 ```
 
 Edit `config.yaml` to use your background:
+
 ```yaml
 default_background: "./backgrounds/your_background.jpg"
 ```
@@ -103,6 +106,7 @@ default_background: "./backgrounds/your_background.jpg"
 ### 3. Run the Tool
 
 **Ensure virtual environment is activated:**
+
 ```bash
 source venv/bin/activate  # macOS/Linux
 # OR
@@ -110,6 +114,7 @@ venv\Scripts\activate     # Windows
 ```
 
 **Run with default settings:**
+
 ```bash
 python main.py
 ```
@@ -169,25 +174,26 @@ output_folder: "./output"
 default_background: "./backgrounds/default_bg.jpeg"
 
 # Output Settings
-output_format: "JPEG"           # JPEG, PNG, or WEBP
-output_quality: 95              # 1-100 (higher = better quality)
+output_format: "JPEG" # JPEG, PNG, or WEBP
+output_quality: 95 # 1-100 (higher = better quality)
 preserve_original_format: false # Keep original format
 
 # AI Model Selection
-model: "u2net"                  # Options:
-                                # - u2net: Most accurate (slower)
-                                # - u2netp: Faster, less accurate
-                                # - u2net_human_seg: For people
-                                # - u2net_cloth_seg: For clothing
+model:
+  "u2net" # Options:
+  # - u2net: Most accurate (slower)
+  # - u2netp: Faster, less accurate
+  # - u2net_human_seg: For people
+  # - u2net_cloth_seg: For clothing
 
 # Processing Options
-add_shadow: false               # Add shadow effect (experimental)
-center_subject: true            # Center subject on background
-skip_existing: true             # Skip already processed files
-continue_on_error: true         # Keep going if one file fails
+add_shadow: false # Add shadow effect (experimental)
+center_subject: true # Center subject on background
+skip_existing: true # Skip already processed files
+continue_on_error: true # Keep going if one file fails
 
 # Logging
-log_level: "INFO"               # DEBUG, INFO, WARNING, ERROR
+log_level: "INFO" # DEBUG, INFO, WARNING, ERROR
 log_file: "./logs/processing.log"
 ```
 
@@ -195,18 +201,18 @@ log_file: "./logs/processing.log"
 
 Choose the right model for your use case:
 
-| Model | Best For | Speed | Accuracy |
-|-------|----------|-------|----------|
-| `u2net` | General purpose, vehicles, products | Slower | Highest |
-| `u2netp` | When speed matters | Faster | Good |
-| `u2net_human_seg` | People, portraits | Medium | High for humans |
-| `u2net_cloth_seg` | Clothing, fashion items | Medium | High for clothing |
+| Model             | Best For                            | Speed  | Accuracy          |
+| ----------------- | ----------------------------------- | ------ | ----------------- |
+| `u2net`           | General purpose, vehicles, products | Slower | Highest           |
+| `u2netp`          | When speed matters                  | Faster | Good              |
+| `u2net_human_seg` | People, portraits                   | Medium | High for humans   |
+| `u2net_cloth_seg` | Clothing, fashion items             | Medium | High for clothing |
 
 ## 📊 Sample Output
 
 ```
 ==================================================
-Image Background Transformer
+ImgForge
 ==================================================
 
 Input folder:  ./input
@@ -236,6 +242,7 @@ Output saved to: ./output
 ### "No module named 'rembg'"
 
 **Solution:** Make sure virtual environment is activated:
+
 ```bash
 source venv/bin/activate  # macOS/Linux
 # OR
@@ -244,7 +251,8 @@ venv\Scripts\activate     # Windows
 
 ### "No images found in input folder"
 
-**Solution:** 
+**Solution:**
+
 1. Ensure images are in the `input/` folder
 2. Check supported formats: JPEG, PNG, WEBP, BMP
 3. Verify file extensions are lowercase or uppercase (both work)
@@ -252,6 +260,7 @@ venv\Scripts\activate     # Windows
 ### Model Download Fails
 
 **Solution:**
+
 1. Check internet connection
 2. Models are downloaded from GitHub - ensure access
 3. Try manually downloading from: https://github.com/danielgatis/rembg
@@ -259,6 +268,7 @@ venv\Scripts\activate     # Windows
 ### Memory Error with Large Images
 
 **Solution:**
+
 1. Resize images before processing
 2. Use `u2netp` model (lighter weight)
 3. Process fewer images at once
@@ -267,6 +277,7 @@ venv\Scripts\activate     # Windows
 ### Poor Background Removal Quality
 
 **Solution:**
+
 1. Try different models (`u2net` is most accurate)
 2. Ensure input images have clear subject/background separation
 3. Check that images are well-lit and in focus
@@ -285,6 +296,7 @@ The tool creates a default gray gradient background if none is specified. Custom
 ### Adding Shadow Effects
 
 Enable in config:
+
 ```yaml
 add_shadow: true
 ```
@@ -313,6 +325,7 @@ This is a standalone tool. Feel free to fork and customize for your needs.
 ## 📄 License
 
 This project uses open-source libraries:
+
 - `rembg` - Licensed under MIT
 - `Pillow` - Licensed under HPND
 - `OpenCV` - Licensed under Apache 2.0
@@ -325,6 +338,7 @@ This project uses open-source libraries:
 ## 📮 Support
 
 For issues or questions:
+
 1. Check the troubleshooting section above
 2. Review `logs/processing.log` for detailed error messages
 3. Ensure all dependencies are correctly installed
@@ -343,6 +357,7 @@ For issues or questions:
 **Happy Processing!** 🚀
 
 When done, remember to deactivate your virtual environment:
+
 ```bash
 deactivate
 ```
